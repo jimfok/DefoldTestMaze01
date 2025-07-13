@@ -42,6 +42,11 @@ function Maze:generate()
     local visited = {}
     for y = 1, self.height do
         visited[y] = {}
+        for x = 1, self.width do
+            if self:CheckDisableClearWall(x, y) then
+                visited[y][x] = true
+            end
+        end
     end
 
     local stack = {}
@@ -50,16 +55,27 @@ function Maze:generate()
 
     local function neighbors(x, y)
         local list = {}
-        if in_bounds(x, y - 1, self.width, self.height) and not visited[y - 1][x] then
+        if self:CheckDisableClearWall(x, y) then
+            return list
+        end
+        if in_bounds(x, y - 1, self.width, self.height)
+            and not visited[y - 1][x]
+            and not self:CheckDisableClearWall(x, y - 1) then
             table.insert(list, { x = x, y = y - 1, dir = "up" })
         end
-        if in_bounds(x - 1, y, self.width, self.height) and not visited[y][x - 1] then
+        if in_bounds(x - 1, y, self.width, self.height)
+            and not visited[y][x - 1]
+            and not self:CheckDisableClearWall(x - 1, y) then
             table.insert(list, { x = x - 1, y = y, dir = "left" })
         end
-        if in_bounds(x + 1, y, self.width, self.height) and not visited[y][x + 1] then
+        if in_bounds(x + 1, y, self.width, self.height)
+            and not visited[y][x + 1]
+            and not self:CheckDisableClearWall(x + 1, y) then
             table.insert(list, { x = x + 1, y = y, dir = "right" })
         end
-        if in_bounds(x, y + 1, self.width, self.height) and not visited[y + 1][x] then
+        if in_bounds(x, y + 1, self.width, self.height)
+            and not visited[y + 1][x]
+            and not self:CheckDisableClearWall(x, y + 1) then
             table.insert(list, { x = x, y = y + 1, dir = "down" })
         end
         return list
@@ -71,15 +87,18 @@ function Maze:generate()
         local nbs = neighbors(current.x, current.y)
         if #nbs > 0 then
             local next = nbs[math.random(#nbs)]
-            -- remove wall between current and next
-            if next.dir == "up" then
-                self.grid[current.y][current.x].block_top = false
-            elseif next.dir == "left" then
-                self.grid[current.y][current.x].block_left = false
-            elseif next.dir == "right" then
-                self.grid[current.y][current.x + 1].block_left = false
-            elseif next.dir == "down" then
-                self.grid[current.y + 1][current.x].block_top = false
+            if not self:CheckDisableClearWall(current.x, current.y)
+                and not self:CheckDisableClearWall(next.x, next.y) then
+                -- remove wall between current and next
+                if next.dir == "up" then
+                    self.grid[current.y][current.x].block_top = false
+                elseif next.dir == "left" then
+                    self.grid[current.y][current.x].block_left = false
+                elseif next.dir == "right" then
+                    self.grid[current.y][current.x + 1].block_left = false
+                elseif next.dir == "down" then
+                    self.grid[current.y + 1][current.x].block_top = false
+                end
             end
             visited[next.y][next.x] = true
             table.insert(stack, { x = next.x, y = next.y })
@@ -119,6 +138,14 @@ end
 -- @return boolean
 function Maze:check_block_right(x, y)
     return self.grid[y] and self.grid[y][x + 1] and self.grid[y][x + 1].block_left
+end
+
+--- Check if clearing walls is disabled for the given cell
+-- @param x number
+-- @param y number
+-- @return boolean
+function Maze:CheckDisableClearWall(x, y)
+    return self.grid[y] and self.grid[y][x] and self.grid[y][x].disable_clear_wall
 end
 
 --- Generic block check depending on direction

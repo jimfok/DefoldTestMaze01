@@ -17,3 +17,7 @@
 - Added boundary assertions in `Maze.new` to ensure the maze dimensions are smaller than the base grid.
 - Implemented wall checking helpers `check_block_up`, `check_block_down`, `check_block_left`, `check_block_right` and `check_block` in `maze.lua`.
 
+## 2025-07-16
+- Added `CheckDisableClearWall` helper and integrated it into maze generation.
+- Maze generation now respects `disable_clear_wall` flags on grid cells.
+
