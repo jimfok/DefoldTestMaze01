@@ -28,3 +28,5 @@
 ## 2025-07-18
 - Added assertion in `load_demo_pattern` to require at least a 4-cell margin around the pattern.
 
+## 2025-07-19
+- Reversed wall clearing logic in `load_demo_pattern` to clear walls when the corresponding bit is NOT set.

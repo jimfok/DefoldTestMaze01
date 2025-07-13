@@ -251,10 +251,10 @@ function Maze:load_demo_pattern(pattern)
             if v then
                 local x = start_x + px - 1
                 local y = start_y + py - 1
-                if bit_enabled(v, 1) then self:clear_block_up(x, y) end
-                if bit_enabled(v, 2) then self:clear_block_right(x, y) end
-                if bit_enabled(v, 4) then self:clear_block_down(x, y) end
-                if bit_enabled(v, 8) then self:clear_block_left(x, y) end
+                if not bit_enabled(v, 1) then self:clear_block_up(x, y) end
+                if not bit_enabled(v, 2) then self:clear_block_right(x, y) end
+                if not bit_enabled(v, 4) then self:clear_block_down(x, y) end
+                if not bit_enabled(v, 8) then self:clear_block_left(x, y) end
             end
         end
     end
