@@ -43,7 +43,7 @@ function DemoPattern.load(path)
     end
 
     return {
-        pattern_width = width,
+        pattern_width = half,
         pattern_height = height,
         block_pattern = block_pattern,
         unit_pattern = unit_pattern,
@@ -55,10 +55,13 @@ end
 function DemoPattern.debug_print(data)
     assert(type(data) == 'table', 'Expected pattern table')
 
+    print('width:' .. data.pattern_width)
+    print('height:' .. data.pattern_height)
+        
     print('Block pattern:')
     for y = 1, data.pattern_height do
         local line = ''
-        for x = 1, #data.block_pattern[y] do
+        for x = 1, data.pattern_width do
             line = line .. tostring(data.block_pattern[y][x]) .. ' '
         end
         print(line)
@@ -67,7 +70,7 @@ function DemoPattern.debug_print(data)
     print('Unit pattern:')
     for y = 1, data.pattern_height do
         local line = ''
-        for x = 1, #data.unit_pattern[y] do
+        for x = 1, data.pattern_width do
             line = line .. tostring(data.unit_pattern[y][x]) .. ' '
         end
         print(line)
