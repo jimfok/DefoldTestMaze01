@@ -1,5 +1,6 @@
 [project]
 title = MobileGame
+custom_resources = /main/data/
 
 [bootstrap]
 main_collection = /main/main.collectionc
