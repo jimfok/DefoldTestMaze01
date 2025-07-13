@@ -9,6 +9,8 @@ local Maze = {}
 function Maze.new(width, height, base_width, base_height)
     base_width = base_width or width
     base_height = base_height or height
+    assert(width < base_width, "width must be less than base width")
+    assert(height < base_height, "height must be less than base height")
     local grid = {}
     for y = 1, base_height do
         grid[y] = {}
@@ -85,6 +87,56 @@ function Maze:generate()
             table.remove(stack)
         end
     end
+end
+
+--- Check if the wall above the given cell is blocked
+-- @param x number
+-- @param y number
+-- @return boolean
+function Maze:check_block_up(x, y)
+    return self.grid[y] and self.grid[y][x] and self.grid[y][x].block_top
+end
+
+--- Check if the wall below the given cell is blocked
+-- @param x number
+-- @param y number
+-- @return boolean
+function Maze:check_block_down(x, y)
+    return self.grid[y + 1] and self.grid[y + 1][x] and self.grid[y + 1][x].block_top
+end
+
+--- Check if the wall to the left of the given cell is blocked
+-- @param x number
+-- @param y number
+-- @return boolean
+function Maze:check_block_left(x, y)
+    return self.grid[y] and self.grid[y][x] and self.grid[y][x].block_left
+end
+
+--- Check if the wall to the right of the given cell is blocked
+-- @param x number
+-- @param y number
+-- @return boolean
+function Maze:check_block_right(x, y)
+    return self.grid[y] and self.grid[y][x + 1] and self.grid[y][x + 1].block_left
+end
+
+--- Generic block check depending on direction
+-- @param x number
+-- @param y number
+-- @param dir string Direction: "up", "down", "left", "right"
+-- @return boolean
+function Maze:check_block(x, y, dir)
+    if dir == "up" then
+        return self:check_block_up(x, y)
+    elseif dir == "down" then
+        return self:check_block_down(x, y)
+    elseif dir == "left" then
+        return self:check_block_left(x, y)
+    elseif dir == "right" then
+        return self:check_block_right(x, y)
+    end
+    return nil
 end
 
 --- Print a textual representation of the maze for debugging
