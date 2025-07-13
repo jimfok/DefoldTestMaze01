@@ -11,4 +11,5 @@
 ## 2025-07-14
 - Created `demo_pattern.lua` module to parse CSV pattern files.
 - Loaded `demopattern01.csv` in `main.script` during initialization.
+- Added `debug_print` in `demo_pattern.lua` and invoked it from `main.script`.
 

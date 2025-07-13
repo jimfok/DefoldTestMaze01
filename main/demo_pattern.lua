@@ -50,4 +50,28 @@ function DemoPattern.load(path)
     }
 end
 
+--- Print pattern data to the console for debugging
+-- @param data table Pattern table returned from `DemoPattern.load`
+function DemoPattern.debug_print(data)
+    assert(type(data) == 'table', 'Expected pattern table')
+
+    print('Block pattern:')
+    for y = 1, data.pattern_height do
+        local line = ''
+        for x = 1, #data.block_pattern[y] do
+            line = line .. tostring(data.block_pattern[y][x]) .. ' '
+        end
+        print(line)
+    end
+
+    print('Unit pattern:')
+    for y = 1, data.pattern_height do
+        local line = ''
+        for x = 1, #data.unit_pattern[y] do
+            line = line .. tostring(data.unit_pattern[y][x]) .. ' '
+        end
+        print(line)
+    end
+end
+
 return DemoPattern
