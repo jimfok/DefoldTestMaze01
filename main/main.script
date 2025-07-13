@@ -3,7 +3,7 @@ local Maze = require "main.maze"
 function init(self)
     msg.post(".", "acquire_input_focus")
     msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
-    self.maze = Maze.new(50, 50, 64, 64)
+    self.maze = Maze.new(16, 16, 20, 20)
     self.maze:generate()
     print("Maze generated")
     self.maze:debug_print()
