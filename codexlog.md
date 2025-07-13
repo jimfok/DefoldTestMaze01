@@ -21,3 +21,10 @@
 - Added `CheckDisableClearWall` helper and integrated it into maze generation.
 - Maze generation now respects `disable_clear_wall` flags on grid cells.
 
+## 2025-07-17
+- Implemented wall clearing helpers and `load_demo_pattern` in `maze.lua`.
+- `main.script` now loads the demo pattern by default.
+
+## 2025-07-18
+- Added assertion in `load_demo_pattern` to require at least a 4-cell margin around the pattern.
+
