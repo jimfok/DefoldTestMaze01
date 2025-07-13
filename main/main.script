@@ -10,6 +10,7 @@ function init(self)
     self.maze:debug_print()
     self.demo_pattern = DemoPattern.load("/main/data/demopattern01.csv")
     print("Demo pattern loaded")
+    DemoPattern.debug_print(self.demo_pattern)
 end
 
 function on_input(self, action_id, action)
