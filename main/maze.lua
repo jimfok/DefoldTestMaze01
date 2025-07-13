@@ -116,12 +116,30 @@ function Maze:check_block_up(x, y)
     return self.grid[y] and self.grid[y][x] and self.grid[y][x].block_top
 end
 
+--- Clear the wall above the given cell
+-- @param x number
+-- @param y number
+function Maze:clear_block_up(x, y)
+    if self.grid[y] and self.grid[y][x] then
+        self.grid[y][x].block_top = false
+    end
+end
+
 --- Check if the wall below the given cell is blocked
 -- @param x number
 -- @param y number
 -- @return boolean
 function Maze:check_block_down(x, y)
     return self.grid[y + 1] and self.grid[y + 1][x] and self.grid[y + 1][x].block_top
+end
+
+--- Clear the wall below the given cell
+-- @param x number
+-- @param y number
+function Maze:clear_block_down(x, y)
+    if self.grid[y + 1] and self.grid[y + 1][x] then
+        self.grid[y + 1][x].block_top = false
+    end
 end
 
 --- Check if the wall to the left of the given cell is blocked
@@ -132,12 +150,30 @@ function Maze:check_block_left(x, y)
     return self.grid[y] and self.grid[y][x] and self.grid[y][x].block_left
 end
 
+--- Clear the wall to the left of the given cell
+-- @param x number
+-- @param y number
+function Maze:clear_block_left(x, y)
+    if self.grid[y] and self.grid[y][x] then
+        self.grid[y][x].block_left = false
+    end
+end
+
 --- Check if the wall to the right of the given cell is blocked
 -- @param x number
 -- @param y number
 -- @return boolean
 function Maze:check_block_right(x, y)
     return self.grid[y] and self.grid[y][x + 1] and self.grid[y][x + 1].block_left
+end
+
+--- Clear the wall to the right of the given cell
+-- @param x number
+-- @param y number
+function Maze:clear_block_right(x, y)
+    if self.grid[y] and self.grid[y][x + 1] then
+        self.grid[y][x + 1].block_left = false
+    end
 end
 
 --- Check if clearing walls is disabled for the given cell
@@ -191,6 +227,36 @@ function Maze:debug_print()
         end
         print(middle .. "|")
         print(next_top .. "+")
+    end
+end
+
+--- Load a demo pattern into the maze and clear walls accordingly
+-- @param pattern table Pattern table returned from DemoPattern.load
+function Maze:load_demo_pattern(pattern)
+    assert(type(pattern) == 'table', 'Expected pattern table')
+    assert(self.base_width - pattern.pattern_width >= 4 and
+           self.base_height - pattern.pattern_height >= 4,
+           'Maze base size must be at least 4 cells larger than pattern')
+
+    local start_x = math.floor((self.base_width - pattern.pattern_width) / 2) + 1
+    local start_y = math.floor((self.base_height - pattern.pattern_height) / 2) + 1
+
+    local function bit_enabled(value, bit)
+        return math.floor(value / bit) % 2 == 1
+    end
+
+    for py = 1, pattern.pattern_height do
+        for px = 1, pattern.pattern_width do
+            local v = tonumber(pattern.block_pattern[py][px])
+            if v then
+                local x = start_x + px - 1
+                local y = start_y + py - 1
+                if bit_enabled(v, 1) then self:clear_block_up(x, y) end
+                if bit_enabled(v, 2) then self:clear_block_right(x, y) end
+                if bit_enabled(v, 4) then self:clear_block_down(x, y) end
+                if bit_enabled(v, 8) then self:clear_block_left(x, y) end
+            end
+        end
     end
 end
 
