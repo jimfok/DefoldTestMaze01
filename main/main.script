@@ -1,6 +1,31 @@
 local Maze = require "main.maze"
 local DemoPattern = require "main.demo_pattern"
 
+-- Print the distance grid returned from Maze:calculate_center_distances
+local function print_distance_grid(dist)
+    for y = 1, #dist do
+        local line = ""
+        for x = 1, #dist[y] do
+            local v = dist[y][x]
+            line = line .. ((v == math.huge and "inf") or tostring(v)) .. " "
+        end
+        print(line)
+    end
+end
+
+-- Validate that all entries in the distance grid are finite numbers
+local function validate_distance_grid(dist)
+    for y = 1, #dist do
+        for x = 1, #dist[y] do
+            local v = dist[y][x]
+            if type(v) ~= "number" or v == math.huge or v ~= v then
+                return false
+            end
+        end
+    end
+    return true
+end
+
 function init(self)
     msg.post(".", "acquire_input_focus")
     msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
@@ -14,19 +39,10 @@ function init(self)
     self.maze:debug_print()
     local dist = self.maze:calculate_center_distances()
 
-    -- TODO： Modify below into a function
-    for y = 1, #dist do
-        local line = ""
-        for x = 1, #dist[y] do
-            local v = dist[y][x]
-            line = line .. ((v == math.huge and "inf") or tostring(v)) .. " "
-        end
-        print(line)
-    end
+    print_distance_grid(dist)
 
-    -- TODO: Write a function to check all grids on dist are valid number，return true / false
-    
-    -- TODO: print result
+    local dist_valid = validate_distance_grid(dist)
+    print("Distance grid valid: " .. tostring(dist_valid))
     
     local verified = self.maze:verify_demo_pattern(self.demo_pattern)
     print("Verify demo pattern: " .. tostring(verified))
