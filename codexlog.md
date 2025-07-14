@@ -51,3 +51,11 @@
 - Added `print_distance_grid` and `validate_distance_grid` helpers in `main.script`.
 - Distance grid printing and validation are now performed during initialization.
 - Added `random_dice.lua` implementing an integer random generator with dice helpers.
+
+## 2025-07-25
+- Replaced `math.random` usage in `maze.lua` with the new `RandomDice` module.
+- Seeded the random generator using `RandomDice.randomseed`.
+
+## 2025-07-26
+- Added optional `seed` parameter to `Maze:generate` for deterministic runs.
+- Updated `main.script` to pass a seed via `os.time()`.

@@ -2,6 +2,7 @@
 -- Provides functions to create a base grid and generate a maze
 
 local Maze = {}
+local RandomDice = require "main.random_dice"
 
 -- Create a new maze object
 -- width, height: dimensions of the maze to generate
@@ -38,7 +39,9 @@ local function in_bounds(x, y, w, h)
 end
 
 -- Carve the maze using a depth-first search (recursive backtracker)
-function Maze:generate()
+--- Generate the maze with optional deterministic seed
+-- @param seed number|nil Optional seed value for RandomDice
+function Maze:generate(seed)
     local visited = {}
     for y = 1, self.height do
         visited[y] = {}
@@ -87,12 +90,12 @@ function Maze:generate()
         return list
     end
 
-    math.randomseed(os.time())
+    RandomDice.randomseed(seed or os.time())
     while #stack > 0 do
         local current = stack[#stack]
         local nbs = neighbors(current.x, current.y)
         if #nbs > 0 then
-            local next = nbs[math.random(#nbs)]
+            local next = nbs[RandomDice.random(#nbs)]
             assert(not self:CheckDisableClearWall(next.x, next.y),
                 string.format("Attempting to carve into disabled cell %d,%d",
                     next.x, next.y))
