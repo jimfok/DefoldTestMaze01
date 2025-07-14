@@ -58,24 +58,30 @@ function Maze:generate()
         if self:CheckDisableClearWall(x, y) then
             return list
         end
+        -- up and left first bcos exist of demo pattern
         if in_bounds(x, y - 1, self.width, self.height)
             and not visited[y - 1][x]
-            and not self:CheckDisableClearWall(x, y - 1) then
+            -- already mark visited
+            -- and not self:CheckDisableClearWall(x, y - 1)
+               then
             table.insert(list, { x = x, y = y - 1, dir = "up" })
         end
         if in_bounds(x - 1, y, self.width, self.height)
             and not visited[y][x - 1]
-            and not self:CheckDisableClearWall(x - 1, y) then
+            -- and not self:CheckDisableClearWall(x - 1, y) 
+                then
             table.insert(list, { x = x - 1, y = y, dir = "left" })
         end
         if in_bounds(x + 1, y, self.width, self.height)
             and not visited[y][x + 1]
-            and not self:CheckDisableClearWall(x + 1, y) then
+            -- and not self:CheckDisableClearWall(x + 1, y) 
+                then
             table.insert(list, { x = x + 1, y = y, dir = "right" })
         end
         if in_bounds(x, y + 1, self.width, self.height)
             and not visited[y + 1][x]
-            and not self:CheckDisableClearWall(x, y + 1) then
+            -- and not self:CheckDisableClearWall(x, y + 1) 
+                then
             table.insert(list, { x = x, y = y + 1, dir = "down" })
         end
         return list
@@ -87,6 +93,10 @@ function Maze:generate()
         local nbs = neighbors(current.x, current.y)
         if #nbs > 0 then
             local next = nbs[math.random(#nbs)]
+            -- TODO: change to assert
+            if self:CheckDisableClearWall(next.x, next.y) then
+                print("ERR:" .. next.x .. "," .. next.y .. " Something wrong")
+            end
             if not self:CheckDisableClearWall(current.x, current.y)
                 and not self:CheckDisableClearWall(next.x, next.y) then
                 -- remove wall between current and next
@@ -102,6 +112,8 @@ function Maze:generate()
             end
             visited[next.y][next.x] = true
             table.insert(stack, { x = next.x, y = next.y })
+            -- debug print path
+            print("pp: " .. next.x .. "," .. next.y)
         else
             table.remove(stack)
         end
@@ -202,6 +214,9 @@ function Maze:check_block(x, y, dir)
     return nil
 end
 
+-- TODO: function set_disable_clear_wall(x, y, flag)
+
+
 --- Print a textual representation of the maze for debugging
 function Maze:debug_print()
     local w, h = self.width, self.height
@@ -252,6 +267,9 @@ function Maze:load_demo_pattern(pattern)
             if v then
                 local x = start_x + px - 1
                 local y = start_y + py - 1
+                self::set_disable_clear_wall(x, y, true)
+                -- debug print demo pattern
+                print("dp: " .. x .."," ..y)
                 if not bit_enabled(v, 1) then self:clear_block_up(x, y) end
                 if not bit_enabled(v, 2) then self:clear_block_right(x, y) end
                 if not bit_enabled(v, 4) then self:clear_block_down(x, y) end
