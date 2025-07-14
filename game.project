@@ -1,7 +1,7 @@
 [project]
 title = MobileGame
 custom_resources = /data/
-dependencies#0 = https://github.com/rgrams/debug-draw/archive/master.zip
+dependencies = 
 
 [bootstrap]
 main_collection = /main/main.collectionc
