@@ -40,3 +40,9 @@
   distances from the maze center.
 - Updated `main.script` to invoke the new function and print the resulting
   distance grid for debugging.
+
+## 2025-07-22
+- Added `verify_demo_pattern` in `maze.lua` to validate walls against a demo pattern.
+
+## 2025-07-23
+- Invoked `verify_demo_pattern` from `main.script` and printed the result.
