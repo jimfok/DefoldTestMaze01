@@ -1,5 +1,6 @@
 local Maze = require "main.maze"
 local DemoPattern = require "main.demo_pattern"
+local RandomDice = require "main.random_dice"
 
 -- Print the distance grid returned from Maze:calculate_center_distances
 local function print_distance_grid(dist)
@@ -26,6 +27,31 @@ local function validate_distance_grid(dist)
     return true
 end
 
+-- Run basic tests for the RandomDice module
+local function test_randomdice()
+    RandomDice.randomseed(12345)
+
+    local results = {
+        RandomDice.random(),
+        RandomDice.random(10),
+        RandomDice.random(5, 15),
+        RandomDice.dice(6),
+        RandomDice.random_between(20, 30),
+    }
+
+    print("RandomDice test results: " .. table.concat(results, ", "))
+
+    local expected = { 87628868, 8, 5, 2, 26 }
+    local pass = true
+    for i, v in ipairs(results) do
+        if v ~= expected[i] then
+            print(string.format("Test %d failed: expected %d got %d", i, expected[i], v))
+            pass = false
+        end
+    end
+    print("RandomDice tests passed: " .. tostring(pass))
+end
+
 function init(self)
     msg.post(".", "acquire_input_focus")
     msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
@@ -46,6 +72,8 @@ function init(self)
     
     local verified = self.maze:verify_demo_pattern(self.demo_pattern)
     print("Verify demo pattern: " .. tostring(verified))
+
+    test_randomdice()
 end
 
 function on_input(self, action_id, action)
