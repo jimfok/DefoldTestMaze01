@@ -10,11 +10,11 @@ function init(self)
     self.maze:load_demo_pattern(self.demo_pattern)
     self.maze:debug_print()
     self.maze:generate()
-    local verified = self.maze:verify_demo_pattern(self.demo_pattern)
-    print("Verify demo pattern: " .. tostring(verified))
     print("Maze generated")
     self.maze:debug_print()
     local dist = self.maze:calculate_center_distances()
+
+    -- TODO： Modify below into a function
     for y = 1, #dist do
         local line = ""
         for x = 1, #dist[y] do
@@ -23,6 +23,13 @@ function init(self)
         end
         print(line)
     end
+
+    -- TODO: Write a function to check all grids on dist are valid number，return true / false
+    
+    -- TODO: print result
+    
+    local verified = self.maze:verify_demo_pattern(self.demo_pattern)
+    print("Verify demo pattern: " .. tostring(verified))
 end
 
 function on_input(self, action_id, action)
