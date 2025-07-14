@@ -10,7 +10,7 @@
 --   PS: call load_demo_pattern() before generate()
 --
 -- generate(seed)
---   genreate a random map
+--   generate a random map
 --   seed: control repeat generate
 
 local Maze = {}
