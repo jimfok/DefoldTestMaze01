@@ -5,7 +5,8 @@ local clear_color = vmath.vector4(0, 0, 0, 1)
 function init(self)
     self.lines = {}
     self.text = {}
-    self.world_pred = render.predicate({ "default" })
+    -- render sprites using the standard material tag
+    self.world_pred = render.predicate({ "sprite" })
     self.gui_pred = render.predicate({ "gui" })
     self.display_width = tonumber(sys.get_config("display.width")) or 640
     self.display_height = tonumber(sys.get_config("display.height")) or 1136

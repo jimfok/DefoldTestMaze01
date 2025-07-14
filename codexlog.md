@@ -43,3 +43,5 @@
 - Required `main.debug_draw` in `draw_maze.lua` and replaced render messages with `DebugDraw.line` calls.
 - Implemented custom render script `custom_render.render_script` with support for
   `draw_line` and `draw_debug_text` messages.
+- Adjusted the custom render script to use the `sprite` predicate so the maze
+  renders correctly.
