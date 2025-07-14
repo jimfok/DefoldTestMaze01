@@ -1,29 +1,87 @@
+-- Custom render script with debug line support
+
+local clear_color = vmath.vector4(0, 0, 0, 1)
+
 function init(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+    self.lines = {}
+    self.text = {}
+    self.world_pred = render.predicate({ "default" })
+    self.gui_pred = render.predicate({ "gui" })
+    self.display_width = tonumber(sys.get_config("display.width")) or 640
+    self.display_height = tonumber(sys.get_config("display.height")) or 1136
+    self.near = -1
+    self.far = 1
+    self.fixed_fit = false
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+    if message_id == hash("draw_line") then
+        self.lines[#self.lines + 1] = {
+            start_point = vmath.vector3(message.start_point),
+            end_point = vmath.vector3(message.end_point),
+            color = message.color or vmath.vector4(1)
+        }
+    elseif message_id == hash("draw_debug_text") then
+        self.text[#self.text + 1] = {
+            text = message.text or "",
+            position = vmath.vector3(message.position),
+            color = message.color or vmath.vector4(1)
+        }
+    elseif message_id == hash("use_fixed_fit_projection") then
+        self.fixed_fit = true
+        self.near = message.near or self.near
+        self.far = message.far or self.far
+    end
+end
+
+local function apply_projection(self)
+    local ww = render.get_window_width()
+    local wh = render.get_window_height()
+    if self.fixed_fit then
+        local scale = math.min(ww / self.display_width, wh / self.display_height)
+        local vpw = self.display_width * scale
+        local vph = self.display_height * scale
+        local vpx = (ww - vpw) * 0.5
+        local vpy = (wh - vph) * 0.5
+        render.set_viewport(vpx, vpy, vpw, vph)
+        render.set_projection(vmath.matrix4_orthographic(0, self.display_width, 0, self.display_height, self.near, self.far))
+    else
+        render.set_viewport(0, 0, ww, wh)
+        render.set_projection(vmath.matrix4_orthographic(0, ww, 0, wh, self.near, self.far))
+    end
+    render.set_view(vmath.matrix4())
+end
+
+function update(self, dt)
+    render.set_depth_mask(true)
+    render.set_stencil_mask(0xff)
+    render.clear({
+        [render.BUFFER_COLOR_BIT] = clear_color,
+        [render.BUFFER_DEPTH_BIT] = 1,
+        [render.BUFFER_STENCIL_BIT] = 0
+    })
+
+    apply_projection(self)
+
+    render.draw(self.world_pred)
+
+    for _, l in ipairs(self.lines) do
+        render.draw_line(l.start_point, l.end_point, l.color)
+    end
+    self.lines = {}
+
+    for _, t in ipairs(self.text) do
+        render.draw_debug_text(t.position, t.text, t.color)
+    end
+    self.text = {}
+
+    render.draw(self.gui_pred)
+end
+
+function final(self)
+    -- no-op
 end
 
 function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+    -- no-op
 end

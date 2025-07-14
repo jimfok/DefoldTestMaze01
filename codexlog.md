@@ -41,3 +41,5 @@
 - Extended `RandomDice.random` to accept a table argument and return a random element.
 - Updated `test_randomdice` to exercise the new table support.
 - Required `main.debug_draw` in `draw_maze.lua` and replaced render messages with `DebugDraw.line` calls.
+- Implemented custom render script `custom_render.render_script` with support for
+  `draw_line` and `draw_debug_text` messages.
