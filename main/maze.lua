@@ -1,5 +1,17 @@
 -- maze.lua
 -- Provides functions to create a base grid and generate a maze
+--
+-- Usage:
+-- new(width, height, base_width, base_height)
+--   usable area = width * height
+--
+-- load_demo_pattern(pattern)
+--   overlap a pattern within the maze (centered)
+--   PS: call load_demo_pattern() before generate()
+--
+-- generate(seed)
+--   genreate a random map
+--   seed: control repeat generate
 
 local Maze = {}
 local RandomDice = require "main.random_dice"

@@ -1,5 +1,14 @@
 -- random_dice.lua
 -- Simple LCG-based integer random number generator with dice helpers
+--
+-- RandomDice.randomseed(s)
+--   Set Seed
+--
+-- RandomDice.random(...)
+--   #Table : random one element from table
+--   a : random from 1 to a
+--   b, c : random from b to c
+
 
 local RandomDice = {}
 

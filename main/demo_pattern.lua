@@ -1,5 +1,15 @@
 -- demo_pattern.lua
 -- Utility to load and parse demo pattern CSV files
+-- 
+-- csv file contain two set of data, place horizontally
+--
+-- left set data is block pattern, where number is wall flag of up/right/down/left
+-- for block pattern, not number means empty grid
+--
+-- right set data is unit pattern, four special character P,E,C,X -> Player, Enemy, Cross, eXit
+-- for unit pattern, not P,E,C,X means empty grid
+--
+-- left/right set data should be of the same size, somehow you can use Q character to control the CSV area (make use of unit pattern area rules)
 
 local DemoPattern = {}
 
