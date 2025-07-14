@@ -3,6 +3,7 @@
 local clear_color = vmath.vector4(0, 0, 0, 1)
 
 function init(self)
+    print("custom_render:init()")
     self.lines = {}
     self.text = {}
     self.world_pred = render.predicate({ "default" })
@@ -15,6 +16,7 @@ function init(self)
 end
 
 function on_message(self, message_id, message, sender)
+    print("custom_render:on_message()")
     if message_id == hash("draw_line") then
         self.lines[#self.lines + 1] = {
             start_point = vmath.vector3(message.start_point),
@@ -35,6 +37,7 @@ function on_message(self, message_id, message, sender)
 end
 
 local function apply_projection(self)
+    print("custom_render:apply_projection()")
     local ww = render.get_window_width()
     local wh = render.get_window_height()
     if self.fixed_fit then
@@ -53,6 +56,7 @@ local function apply_projection(self)
 end
 
 function update(self, dt)
+    print("custom_render:update()")
     render.set_depth_mask(true)
     render.set_stencil_mask(0xff)
     render.clear({
