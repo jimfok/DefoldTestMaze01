@@ -3,6 +3,8 @@ local DemoPattern = require "main.demo_pattern"
 local RandomDice = require "main.random_dice"
 local DrawMaze = require "main.draw_maze"
 
+local draw_maze_flag = false
+
 -- Print the distance grid returned from Maze:calculate_center_distances
 local function print_distance_grid(dist)
     for y = 1, #dist do
@@ -78,6 +80,8 @@ function init(self)
     print("Verify demo pattern: " .. tostring(verified))
 
     test_randomdice()
+
+    draw_maze_flag = true
 end
 
 function on_input(self, action_id, action)
@@ -87,5 +91,7 @@ function on_input(self, action_id, action)
 end
 
 function update(self, dt)
-    DrawMaze.draw(self.maze, 32)
+    if draw_maze_flag then
+        DrawMaze.draw(self.maze, 32)
+    end
 end
