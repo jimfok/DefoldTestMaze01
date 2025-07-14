@@ -30,3 +30,7 @@
 
 ## 2025-07-19
 - Reversed wall clearing logic in `load_demo_pattern` to clear walls when the corresponding bit is NOT set.
+
+## 2025-07-20
+- Converted debug error print to an assertion in `Maze.generate`.
+- Implemented `set_disable_clear_wall` helper and updated call site in `load_demo_pattern`.
