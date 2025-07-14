@@ -234,12 +234,13 @@ end
 -- @param pattern table Pattern table returned from DemoPattern.load
 function Maze:load_demo_pattern(pattern)
     assert(type(pattern) == 'table', 'Expected pattern table')
-    assert(self.base_width - pattern.pattern_width >= 4 and
-           self.base_height - pattern.pattern_height >= 4,
-           'Maze base size must be at least 4 cells larger than pattern')
+    assert(self.width - pattern.pattern_width >= 4 and
+           self.height - pattern.pattern_height >= 4,
+           'Maze size must be at least 4 cells larger than pattern')
 
-    local start_x = math.floor((self.base_width - pattern.pattern_width) / 2) + 1
-    local start_y = math.floor((self.base_height - pattern.pattern_height) / 2) + 1
+    -- -1 for better alignment
+    local start_x = math.floor((self.width - pattern.pattern_width) / 2) + 1
+    local start_y = math.floor((self.height - pattern.pattern_height) / 2) + 1
 
     local function bit_enabled(value, bit)
         return math.floor(value / bit) % 2 == 1
