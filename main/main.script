@@ -31,7 +31,7 @@ end
 local function test_randomdice()
     RandomDice.randomseed(12345)
 
-    local tbl = { "a", "b", "c" }
+    local tbl = { "a", "b", "c", "d", "e" }
 
     local results = {
         RandomDice.random(),
@@ -44,7 +44,7 @@ local function test_randomdice()
 
     print("RandomDice test results: " .. table.concat(results, ", "))
 
-    local expected = { 87628868, 8, 5, 2, 26, "a" }
+    local expected = { 87628868, 8, 5, 2, 26, "b" }
     local pass = true
     for i, v in ipairs(results) do
         if v ~= expected[i] then
