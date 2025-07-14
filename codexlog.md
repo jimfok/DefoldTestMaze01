@@ -55,7 +55,6 @@
 ## 2025-07-25
 - Replaced `math.random` usage in `maze.lua` with the new `RandomDice` module.
 - Seeded the random generator using `RandomDice.randomseed`.
-
-## 2025-07-26
+- Implemented `test_randomdice` in `main.script` to verify all `RandomDice` functions.
 - Added optional `seed` parameter to `Maze:generate` for deterministic runs.
 - Updated `main.script` to pass a seed via `os.time()`.
