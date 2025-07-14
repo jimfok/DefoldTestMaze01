@@ -40,3 +40,4 @@
 - Removed `Maze:draw` and updated `main.script` to use the new module.
 - Extended `RandomDice.random` to accept a table argument and return a random element.
 - Updated `test_randomdice` to exercise the new table support.
+- Required `main.debug_draw` in `draw_maze.lua` and replaced render messages with `DebugDraw.line` calls.

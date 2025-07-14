@@ -2,6 +2,7 @@
 -- Utility to draw a Maze using debug lines
 
 local DrawMaze = {}
+local DebugDraw = require "main.debug_draw"
 
 --- Draw the maze using debug lines
 -- @param maze table Maze object
@@ -18,35 +19,19 @@ function DrawMaze.draw(maze, cell_size, color)
             local oy = (y - 1) * cell_size
 
             if maze:check_block_left(x, y) then
-                msg.post("@render:", "draw_line", {
-                    start_point = vmath.vector3(ox, oy, 0),
-                    end_point = vmath.vector3(ox, oy + cell_size, 0),
-                    color = color
-                })
+                DebugDraw.line(ox, oy, ox, oy + cell_size, color)
             end
 
             if maze:check_block_up(x, y) then
-                msg.post("@render:", "draw_line", {
-                    start_point = vmath.vector3(ox, oy + cell_size, 0),
-                    end_point = vmath.vector3(ox + cell_size, oy + cell_size, 0),
-                    color = color
-                })
+                DebugDraw.line(ox, oy + cell_size, ox + cell_size, oy + cell_size, color)
             end
 
             if x == w and maze:check_block_right(x, y) then
-                msg.post("@render:", "draw_line", {
-                    start_point = vmath.vector3(ox + cell_size, oy, 0),
-                    end_point = vmath.vector3(ox + cell_size, oy + cell_size, 0),
-                    color = color
-                })
+                DebugDraw.line(ox + cell_size, oy, ox + cell_size, oy + cell_size, color)
             end
 
             if y == h and maze:check_block_down(x, y) then
-                msg.post("@render:", "draw_line", {
-                    start_point = vmath.vector3(ox, oy, 0),
-                    end_point = vmath.vector3(ox + cell_size, oy, 0),
-                    color = color
-                })
+                DebugDraw.line(ox, oy, ox + cell_size, oy, color)
             end
         end
     end
