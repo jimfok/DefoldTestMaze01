@@ -66,6 +66,8 @@ function update(self, dt)
         [render.BUFFER_STENCIL_BIT] = 0
     })
 
+    render.enable_state(render.STATE_BLEND)
+
     apply_projection(self)
 
     render.draw(self.world_pred)

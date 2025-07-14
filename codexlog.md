@@ -45,3 +45,5 @@
   `draw_line` and `draw_debug_text` messages.
 - Adjusted the custom render script to use the `sprite` predicate so the maze
   renders correctly.
+
+- Enabled blending state in custom render script before drawing sprites.
