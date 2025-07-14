@@ -34,3 +34,9 @@
 ## 2025-07-20
 - Converted debug error print to an assertion in `Maze.generate`.
 - Implemented `set_disable_clear_wall` helper and updated call site in `load_demo_pattern`.
+
+## 2025-07-21
+- Added `calculate_center_distances` in `maze.lua` to compute minimum path
+  distances from the maze center.
+- Updated `main.script` to invoke the new function and print the resulting
+  distance grid for debugging.
