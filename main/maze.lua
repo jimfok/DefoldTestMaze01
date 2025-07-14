@@ -286,6 +286,42 @@ function Maze:load_demo_pattern(pattern)
     end
 end
 
+--- Verify that the maze walls match a demo pattern
+-- @param pattern table Pattern table returned from DemoPattern.load
+-- @return boolean True if all walls correspond to the pattern
+function Maze:verify_demo_pattern(pattern)
+    assert(type(pattern) == 'table', 'Expected pattern table')
+    assert(self.width - pattern.pattern_width >= 4 and
+           self.height - pattern.pattern_height >= 4,
+           'Maze size must be at least 4 cells larger than pattern')
+
+    local start_x = math.floor((self.width - pattern.pattern_width) / 2) + 1
+    local start_y = math.floor((self.height - pattern.pattern_height) / 2) + 1
+
+    local function bit_enabled(value, bit)
+        return math.floor(value / bit) % 2 == 1
+    end
+
+    for py = 1, pattern.pattern_height do
+        for px = 1, pattern.pattern_width do
+            local v = tonumber(pattern.block_pattern[py][px])
+            if v then
+                local x = start_x + px - 1
+                local y = start_y + py - 1
+
+                if self:check_block(x, y, 'up')    ~= bit_enabled(v, 1) or
+                   self:check_block(x, y, 'right') ~= bit_enabled(v, 2) or
+                   self:check_block(x, y, 'down')  ~= bit_enabled(v, 4) or
+                   self:check_block(x, y, 'left')  ~= bit_enabled(v, 8) then
+                    return false
+                end
+            end
+        end
+    end
+
+    return true
+end
+
 --- Calculate minimum path distances from maze center to all cells
 -- @return table Distance grid with math.huge for unreachable cells
 function Maze:calculate_center_distances()
