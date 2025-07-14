@@ -1,6 +1,7 @@
 local Maze = require "main.maze"
 local DemoPattern = require "main.demo_pattern"
 local RandomDice = require "main.random_dice"
+local DrawMaze = require "main.draw_maze"
 
 -- Print the distance grid returned from Maze:calculate_center_distances
 local function print_distance_grid(dist)
@@ -83,4 +84,8 @@ function on_input(self, action_id, action)
     if action_id == hash("touch") and action.pressed then
         print("Touch!")
     end
+end
+
+function update(self, dt)
+    DrawMaze.draw(self.maze, 32)
 end

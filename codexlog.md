@@ -34,5 +34,9 @@
 - Implemented `test_randomdice` in `main.script` to verify all `RandomDice` functions.
 - Added optional `seed` parameter to `Maze:generate` for deterministic runs.
 - Updated `main.script` to pass a seed via `os.time()`.
+- Added `Maze:draw` to render the maze using debug lines.
+- `main.script` now draws the maze each frame in `update()`.
+- Created `draw_maze.lua` module for maze rendering.
+- Removed `Maze:draw` and updated `main.script` to use the new module.
 - Extended `RandomDice.random` to accept a table argument and return a random element.
 - Updated `test_randomdice` to exercise the new table support.

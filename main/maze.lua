@@ -266,7 +266,6 @@ function Maze:debug_print()
         print(next_top .. "+")
     end
 end
-
 --- Load a demo pattern into the maze and clear walls accordingly
 -- @param pattern table Pattern table returned from DemoPattern.load
 function Maze:load_demo_pattern(pattern)
