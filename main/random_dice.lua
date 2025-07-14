@@ -5,9 +5,9 @@
 --   Set Seed
 --
 -- RandomDice.random(...)
---   #Table : random one element from table
---   a : random from 1 to a
---   b, c : random from b to c
+--   tbl : random element from the table `tbl`
+--   a   : random from 1 to a
+--   b, c: random from b to c
 
 
 local RandomDice = {}
@@ -36,19 +36,27 @@ end
 -- * `random()`        -> integer in the range [0, m-1]
 -- * `random(upper)`   -> integer in the range [1, upper]
 -- * `random(lower, upper)` -> integer in [lower, upper]
+-- * `random(tbl)`    -> random element from array-like table `tbl`
 function RandomDice.random(...)
     local n = select('#', ...)
-    local value = next_value()
     if n == 0 then
-        return value
+        return next_value()
     elseif n == 1 then
-        local upper = ...
-        assert(type(upper) == 'number' and upper >= 1, 'upper must be >= 1')
-        return value % upper + 1
+        local arg1 = ...
+        if type(arg1) == 'table' then
+            assert(#arg1 > 0, 'table must not be empty')
+            return arg1[RandomDice.random(#arg1)]
+        else
+            local value = next_value()
+            local upper = arg1
+            assert(type(upper) == 'number' and upper >= 1, 'upper must be >= 1')
+            return value % upper + 1
+        end
     elseif n == 2 then
         local lower, upper = ...
         assert(type(lower) == 'number' and type(upper) == 'number' and lower <= upper,
             'lower must be <= upper')
+        local value = next_value()
         return value % (upper - lower + 1) + lower
     else
         error('invalid arguments to random')
