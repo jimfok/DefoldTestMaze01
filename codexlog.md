@@ -46,3 +46,6 @@
 
 ## 2025-07-23
 - Invoked `verify_demo_pattern` from `main.script` and printed the result.
+
+## 2025-07-24
+- Added `random_dice.lua` implementing an integer random generator with dice helpers.
