@@ -46,3 +46,7 @@
 
 ## 2025-07-23
 - Invoked `verify_demo_pattern` from `main.script` and printed the result.
+
+## 2025-07-24
+- Added `print_distance_grid` and `validate_distance_grid` helpers in `main.script`.
+- Distance grid printing and validation are now performed during initialization.
