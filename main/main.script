@@ -12,6 +12,15 @@ function init(self)
     self.maze:generate()
     print("Maze generated")
     self.maze:debug_print()
+    local dist = self.maze:calculate_center_distances()
+    for y = 1, #dist do
+        local line = ""
+        for x = 1, #dist[y] do
+            local v = dist[y][x]
+            line = line .. ((v == math.huge and "inf") or tostring(v)) .. " "
+        end
+        print(line)
+    end
 end
 
 function on_input(self, action_id, action)

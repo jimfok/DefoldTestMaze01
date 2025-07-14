@@ -286,5 +286,52 @@ function Maze:load_demo_pattern(pattern)
     end
 end
 
+--- Calculate minimum path distances from maze center to all cells
+-- @return table Distance grid with math.huge for unreachable cells
+function Maze:calculate_center_distances()
+    local cx = math.floor((self.width + 1) / 2)
+    local cy = math.floor((self.height + 1) / 2)
+    local dist = {}
+    for y = 1, self.height do
+        dist[y] = {}
+        for x = 1, self.width do
+            dist[y][x] = math.huge
+        end
+    end
+
+    local queue = { { x = cx, y = cy } }
+    dist[cy][cx] = 0
+    local head = 1
+    while head <= #queue do
+        local node = queue[head]
+        head = head + 1
+        local d = dist[node.y][node.x]
+
+        -- explore neighbors that are not separated by walls
+        if node.y > 1 and not self:check_block_up(node.x, node.y) and
+           dist[node.y - 1][node.x] == math.huge then
+            dist[node.y - 1][node.x] = d + 1
+            queue[#queue + 1] = { x = node.x, y = node.y - 1 }
+        end
+        if node.y < self.height and not self:check_block_down(node.x, node.y) and
+           dist[node.y + 1][node.x] == math.huge then
+            dist[node.y + 1][node.x] = d + 1
+            queue[#queue + 1] = { x = node.x, y = node.y + 1 }
+        end
+        if node.x > 1 and not self:check_block_left(node.x, node.y) and
+           dist[node.y][node.x - 1] == math.huge then
+            dist[node.y][node.x - 1] = d + 1
+            queue[#queue + 1] = { x = node.x - 1, y = node.y }
+        end
+        if node.x < self.width and not self:check_block_right(node.x, node.y) and
+           dist[node.y][node.x + 1] == math.huge then
+            dist[node.y][node.x + 1] = d + 1
+            queue[#queue + 1] = { x = node.x + 1, y = node.y }
+        end
+    end
+
+    return dist
+end
+
 return Maze
 
