@@ -93,10 +93,9 @@ function Maze:generate()
         local nbs = neighbors(current.x, current.y)
         if #nbs > 0 then
             local next = nbs[math.random(#nbs)]
-            -- TODO: change to assert
-            if self:CheckDisableClearWall(next.x, next.y) then
-                print("ERR:" .. next.x .. "," .. next.y .. " Something wrong")
-            end
+            assert(not self:CheckDisableClearWall(next.x, next.y),
+                string.format("Attempting to carve into disabled cell %d,%d",
+                    next.x, next.y))
             if not self:CheckDisableClearWall(current.x, current.y)
                 and not self:CheckDisableClearWall(next.x, next.y) then
                 -- remove wall between current and next
@@ -214,7 +213,15 @@ function Maze:check_block(x, y, dir)
     return nil
 end
 
--- TODO: function set_disable_clear_wall(x, y, flag)
+--- Set whether clearing walls is disabled for the given cell
+-- @param x number
+-- @param y number
+-- @param flag boolean True to disable clearing, false to enable
+function Maze:set_disable_clear_wall(x, y, flag)
+    if self.grid[y] and self.grid[y][x] then
+        self.grid[y][x].disable_clear_wall = flag and true or false
+    end
+end
 
 
 --- Print a textual representation of the maze for debugging
@@ -267,7 +274,7 @@ function Maze:load_demo_pattern(pattern)
             if v then
                 local x = start_x + px - 1
                 local y = start_y + py - 1
-                self::set_disable_clear_wall(x, y, true)
+                self:set_disable_clear_wall(x, y, true)
                 -- debug print demo pattern
                 print("dp: " .. x .."," ..y)
                 if not bit_enabled(v, 1) then self:clear_block_up(x, y) end
