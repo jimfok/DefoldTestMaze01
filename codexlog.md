@@ -34,3 +34,5 @@
 - Implemented `test_randomdice` in `main.script` to verify all `RandomDice` functions.
 - Added optional `seed` parameter to `Maze:generate` for deterministic runs.
 - Updated `main.script` to pass a seed via `os.time()`.
+- Extended `RandomDice.random` to accept a table argument and return a random element.
+- Updated `test_randomdice` to exercise the new table support.
