@@ -40,3 +40,7 @@
 ## 2025-07-15
 - Renamed `demo_pattern.lua` to `demo-pattern.lua`.
 - Moved `random_dice.lua` to `modules/random-dice.lua` and updated require paths.
+- Added `maze-draw.lua` module using `debug-draw` for maze rendering.
+- Updated `main.script` with an `update` function invoking the new drawer.
+- Renamed local variable `debugdraw` to `DebugDraw` in scripts.
+
