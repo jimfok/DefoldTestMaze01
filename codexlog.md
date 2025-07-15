@@ -36,3 +36,7 @@
 - Updated `main.script` to pass a seed via `os.time()`.
 - Extended `RandomDice.random` to accept a table argument and return a random element.
 - Updated `test_randomdice` to exercise the new table support.
+
+## 2025-07-15
+- Renamed `demo_pattern.lua` to `demo-pattern.lua`.
+- Moved `random_dice.lua` to `modules/random-dice.lua` and updated require paths.

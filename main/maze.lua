@@ -14,7 +14,7 @@
 --   seed: control repeat generate
 
 local Maze = {}
-local RandomDice = require "main.random_dice"
+local RandomDice = require "modules.random-dice"
 
 -- Create a new maze object
 -- width, height: dimensions of the maze to generate

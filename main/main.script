@@ -1,6 +1,6 @@
 local Maze = require "main.maze"
-local DemoPattern = require "main.demo_pattern"
-local RandomDice = require "main.random_dice"
+local DemoPattern = require "main.demo-pattern"
+local RandomDice = require "modules.random-dice"
 
 -- Print the distance grid returned from Maze:calculate_center_distances
 local function print_distance_grid(dist)
