@@ -1,5 +1,5 @@
 [project]
-title = MobileGame
+title = DefoldTestMaze01
 custom_resources = /data/
 
 [bootstrap]
