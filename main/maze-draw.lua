@@ -22,7 +22,8 @@ function MazeDraw.draw(maze, ox, oy, size, color)
         for x = 1, w do
             local cell = grid[y][x]
             local x1 = ox + (x - 1) * size
-            local y1 = oy + (h - y) * size
+            -- Keep the maze in Y-down orientation without flipping
+            local y1 = oy + (y - 1) * size
             local x2 = x1 + size
             local y2 = y1 + size
 
