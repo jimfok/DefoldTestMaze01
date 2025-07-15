@@ -1,6 +1,8 @@
 local Maze = require "main.maze"
 local DemoPattern = require "main.demo-pattern"
 local RandomDice = require "modules.random-dice"
+local MazeDraw = require "main.maze-draw"
+local DebugDraw = require "modules.debug-draw"
 
 -- Print the distance grid returned from Maze:calculate_center_distances
 local function print_distance_grid(dist)
@@ -84,3 +86,9 @@ function on_input(self, action_id, action)
         print("Touch!")
     end
 end
+
+function update(self, dt)
+    MazeDraw.draw(self.maze, 32, 32, 16)
+    DebugDraw.text("Debug!", 100, 200, DebugDraw.COLORS.green)
+end
+
