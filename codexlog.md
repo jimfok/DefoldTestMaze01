@@ -43,4 +43,5 @@
 - Added `maze-draw.lua` module using `debug-draw` for maze rendering.
 - Updated `main.script` with an `update` function invoking the new drawer.
 - Renamed local variable `debugdraw` to `DebugDraw` in scripts.
+- Modified `maze-draw.lua` to keep maze coordinates in Y-down orientation.
 
