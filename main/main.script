@@ -88,7 +88,7 @@ function on_input(self, action_id, action)
 end
 
 function update(self, dt)
-    MazeDraw.draw(self.maze, 32, 32, 16)
+    MazeDraw.draw(self.maze, 32, 32, 16, DebugDraw.COLORS.black)
     DebugDraw.text("Debug!", 100, 200, DebugDraw.COLORS.green)
 end
 
